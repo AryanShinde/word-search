@@ -1,11 +1,12 @@
 export interface IWordsearch {
-    grid: string[][];
-    words: string[];
-    width: number;
-    height: number;
+    grid: string[][]; // 2d array containing letters
+    words: string[]; // The words to be found
+    width: number; // Number of columns in the grid
+    height: number; // Number of rows in the grid
 }
 
+// [row, column]
 export type GridCell = [number, number];
-export type GridCellPair = [GridCell, GridCell];
 
+// Array containing adjacent grid locations
 export type WordMatch = GridCell[];

@@ -27,8 +27,11 @@ export const parseFile = (file: File): Promise<Wordsearch> => {
                 if (pastDelimiter) {
                     words.push(line);
                 } else {
+                    // Splits up the string of letters into an array
                     grid.push(line.split(""));
 
+                    // If the length of the last line is not
+                    // the same as the length of this line
                     if (grid[i - 1] && grid[i].length !== grid[i - 1].length) {
                         throw new Error("Invalid grid");
                     }
@@ -72,7 +75,6 @@ const resizeCanvas = (
 export const clearGrid = (canvas: HTMLCanvasElement) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = 0;
     canvas.height = 0;
 };
@@ -83,6 +85,8 @@ export const drawGrid = (canvas: HTMLCanvasElement, puzzle: Wordsearch) => {
 
     // Also clears the grid
     resizeCanvas(canvas, puzzle.width, puzzle.height);
+
+    // Set up font attributes
     ctx.font = "30px monospace";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
@@ -106,11 +110,17 @@ export const drawMatch = (canvas: HTMLCanvasElement, match: WordMatch) => {
 
     // To show up behind the grid
     ctx.globalCompositeOperation = "destination-over";
+
+    // Red with 40% opacity
     ctx.strokeStyle = "rgba(255, 0, 0, 0.4)";
+
     ctx.lineCap = "round";
     ctx.lineWidth = 30;
 
     ctx.beginPath();
+
+    // Position is in the format [row (y), column (x)]
+    // , but we need the x component, and then the y
     ctx.moveTo(startPosition[1], startPosition[0]);
     ctx.lineTo(endPosition[1], endPosition[0]);
     ctx.stroke();
